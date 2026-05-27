@@ -1,0 +1,48 @@
+- name: Install PostgreSQL
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+      - python3-psycopg2
+    state: present
+    update_cache: yes
+
+- name: Start and enable PostgreSQL
+  systemd:
+    name: postgresql
+    state: started
+    enabled: yes
+
+- name: Create database
+  become_user: postgres
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: present
+
+- name: Create database user
+  become_user: postgres
+  postgresql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+    priv: "ALL/{{ db_name }}:ALL"
+    state: present
+
+- name: Allow remote connections in pg_hba.conf
+  ansible.builtin.lineinfile:
+    path: /etc/postgresql/16/main/pg_hba.conf
+    line: "host    all             all             192.168.10.0/24         md5"
+    state: present
+  notify: Restart PostgreSQL
+
+- name: Listen on all interfaces
+  ansible.builtin.lineinfile:
+    path: /etc/postgresql/16/main/postgresql.conf
+    regexp: "^#listen_addresses"
+    line: "listen_addresses = '*'"
+  notify: Restart PostgreSQL
+
+handlers:
+  - name: Restart PostgreSQL
+    systemd:
+      name: postgresql
+      state: restarted

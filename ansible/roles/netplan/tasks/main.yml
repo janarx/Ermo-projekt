@@ -1,0 +1,9 @@
+- name: Configure netplan
+  ansible.builtin.template:
+    src: ../../templates/netplan.yml.j2
+    dest: /etc/netplan/00-installer-config.yaml
+  notify: Apply netplan
+
+handlers:
+  - name: Apply netplan
+    ansible.builtin.command: netplan apply

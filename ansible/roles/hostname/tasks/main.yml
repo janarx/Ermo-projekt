@@ -1,0 +1,8 @@
+- name: Set hostname file
+  ansible.builtin.template:
+    src: ../../templates/hostname.j2
+    dest: /etc/hostname
+
+- name: Set hostname live
+  ansible.builtin.hostname:
+    name: "{{ hostname }}"

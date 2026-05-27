@@ -1,0 +1,27 @@
+- name: Create app directory
+  file:
+    path: /opt/flask-app
+    state: directory
+    owner: ubuntu
+    group: ubuntu
+
+- name: Copy app files
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /opt/flask-app/
+    owner: ubuntu
+    group: ubuntu
+  with_fileglob:
+    - "../../../task/*"
+
+- name: Copy templates folder
+  ansible.builtin.copy:
+    src: ../../../task/templates/
+    dest: /opt/flask-app/templates/
+    owner: ubuntu
+    group: ubuntu
+
+- name: Start Flask app with Docker Compose
+  ansible.builtin.shell: |
+    cd /opt/flask-app && docker compose up -d --build
+  become_user: ubuntu

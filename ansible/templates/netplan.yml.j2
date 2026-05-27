@@ -1,0 +1,13 @@
+network:
+  ethernets:
+    ens18:
+      addresses:
+        - {{ ip_addr }}/24
+      routes:
+        - to: default
+          via: {{ gateway }}
+      nameservers:
+        addresses:
+          - 1.1.1.1
+          - 8.8.8.8
+  version: 2
