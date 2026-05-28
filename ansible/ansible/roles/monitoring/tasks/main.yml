@@ -1,0 +1,11 @@
+- name: Install monitoring tools
+  apt:
+    name:
+      - htop
+      - net-tools
+      - iotop
+      - ncdu
+      - curl
+      - wget
+    state: present
+    update_cache: yes

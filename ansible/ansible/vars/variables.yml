@@ -1,0 +1,4 @@
+db_name: "flaskdb"
+db_user: "flaskuser"
+db_password: "flaskpass123"
+gateway: "192.168.10.1"

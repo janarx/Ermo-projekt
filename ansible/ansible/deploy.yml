@@ -1,0 +1,38 @@
+- name: Base configuration
+  hosts: all
+  become: yes
+  vars_files:
+    - vars/variables.yml
+  gather_facts: yes
+  vars:
+    hostname: "{{ inventory_hostname }}"
+    ip_addr: "{{ ansible_host }}"
+  roles:
+    - update
+    - hostname
+    - netplan
+
+- name: Deploy web server
+  hosts: webservers
+  become: yes
+  vars_files:
+    - vars/variables.yml
+  roles:
+    - docker
+    - flask
+
+- name: Deploy database
+  hosts: dbservers
+  become: yes
+  vars_files:
+    - vars/variables.yml
+  roles:
+    - postgresql
+
+- name: Deploy monitoring
+  hosts: monitoring
+  become: yes
+  vars_files:
+    - vars/variables.yml
+  roles:
+    - monitoring
