@@ -2,10 +2,10 @@ Automatiseeritud Flask rakenduse deploy Proxmox virtuaalmasinate peal, kasutades
 
 ## Arhitektuur
 ┌─────────────────────────────────────────────────────┐
-│                    Proxmox VE                        │
+│                    Proxmox VE                       │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
 │  │   web-01    │  │   db-01     │  │ monitor-01  │ │
-│  │192.168.10.161│  │192.168.10.162│  │192.168.10.163│ │
+│  │192.168.10.161│  │192.168.10.162│  │192.168.10.163│
 │  │             │  │             │  │             │ │
 │  │  Docker     │  │ PostgreSQL  │  │  htop       │ │
 │  │  Flask App  │  │ studentapp  │  │  net-tools  │ │
@@ -26,14 +26,14 @@ Automatiseeritud Flask rakenduse deploy Proxmox virtuaalmasinate peal, kasutades
 
 ### 1. Klooni repo
 
-```bash
+bash
 git clone https://github.com/janarx/Ermo-projekt
-cd Ermo-projekt
-```
+cd too
+----
 
 ### 2. Terraform — VM-ide loomine
 
-```bash
+bash
 cd terraform
 
 # Muuda vars.tf väärtused:
@@ -45,11 +45,11 @@ cd terraform
 terraform init
 terraform plan
 terraform apply
-```
+----
 
 ### 3. Ansible — süsteemide seadistamine
 
-```bash
+bash
 cd ../ansible
 
 # Kopeeri ansible_key Proxmox serverile
@@ -60,17 +60,17 @@ echo "ANSIBLE_KEY_PUB" >> ~/.ssh/authorized_keys
 
 # Käivita playbook
 ansible-playbook -i inventory deploy.yml
-```
+----
 
-### 4. Kontrolli
+4. Kontrolli
 
-```bash
+bash
 # Testi ühendust
 ansible all -i inventory -m ping
 
 # Ava brauser
 http://192.168.10.161:5000
-```
+
 
 ## VM-ide kirjeldus
 
