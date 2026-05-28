@@ -1,13 +1,11 @@
-# Ermo-projekt
-
 Automatiseeritud Flask rakenduse deploy Proxmox virtuaalmasinate peal, kasutades Terraformi, Ansiblet ja Dockerit.
 
 ## Arhitektuur
 ┌─────────────────────────────────────────────────────┐
-│                    Proxmox VE                       │
+│                    Proxmox VE                        │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐ │
 │  │   web-01    │  │   db-01     │  │ monitor-01  │ │
-│  │192.168.10.161│ │192.168.10.162│  │192.168.10.163│
+│  │192.168.10.161│  │192.168.10.162│  │192.168.10.163│ │
 │  │             │  │             │  │             │ │
 │  │  Docker     │  │ PostgreSQL  │  │  htop       │ │
 │  │  Flask App  │  │ studentapp  │  │  net-tools  │ │
