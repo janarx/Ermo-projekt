@@ -101,3 +101,9 @@ variable "cipassword" {
   sensitive   = true
   default     = "ubuntu123"
 }
+
+variable "proxmox_ssh_public_key" {
+  description = "Proxmox server SSH public key for Ansible"
+  type        = string
+  default     = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC13m41/lwqzKLP+XuC6ss9DG1V1/RSMp38rffP8+Gq3tcByqXbd9odhLRqYTMwlsnL++YUl8wayPSF/B1kyfqvqFJNK77+WkpsdWammqNrpTNGTyHoSWnK4UH06ZjxWWC+8U+lXWuXC7ZLjDQPmgeSYBh7l3s91Qj+GdwjREIALOFa9JhoQpmSlhm+nLUxTLQYPrBGCOEW1yh1EmtbnpfX8AkVWcW21OsxXrjQsNvXJJSmO2zh9j2EwBDuba++mKoiceiw4MtaLX8tHMuj6MvnsZS686qT/8fjsCgtDNZPog50qDYAT6M7/I+0yRnQe+UHsLvUqeAEnba/yZOJyRrYlRdV8MhCduoDMhqM4O2mNOyZJE/Izp83Fw6NaisnIEv+X91M7VhG49T9srrn3zc1U+Tn23rZPK/4rtOAZv8b/t8PUMGDGhPs2yLg0ejN/PZyGegSsEW7aOYdBCCd8lVJ06Q2wH3UEqdBWD4g+Dn3ngTwhF7vDhVbOpgyxhzvycgTLBTxB1UA9IgbdSnUBR/9dfOI4E1FLSr3TsseZ5+LaMOJ/v6lwCWN0fET7Li5FyHY3fXlHnUZgusr4khqhUmA1UkTBGgCCzuSYFWDPq6pJotA3Z3+Jdm5Pgb5S89y2AotdQLBmCKMDOY7Oz1YKv2YBhlM66GjbP7Xd2iqlqLamw== root@pve"
+}

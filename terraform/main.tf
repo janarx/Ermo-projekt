@@ -40,10 +40,10 @@ resource "proxmox_virtual_environment_vm" "vm" {
         gateway = var.gateway
       }
     }
-    user_account {
+      user_account {
       username = var.ciuser
       password = "ubuntu123"
-      keys     = [var.ssh_public_key]
+      keys     = [var.ssh_public_key, var.proxmox_ssh_public_key]
     }
   }
 
