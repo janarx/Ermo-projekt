@@ -12,7 +12,26 @@
     owner: ubuntu
     group: ubuntu
 
+- name: Update docker-compose.yml with correct DB host
+  ansible.builtin.copy:
+    dest: /opt/flask-app/docker-compose.yml
+    owner: ubuntu
+    group: ubuntu
+    content: |
+      services:
+        web:
+          build: .
+          container_name: studentapp-web
+          ports:
+            - "5000:5000"
+          environment:
+            DB_HOST: 192.168.10.162
+            DB_NAME: studentapp
+            DB_USER: studentadmin
+            DB_PASS: studentpass
+          restart: always
+
 - name: Start Flask app with Docker Compose
   ansible.builtin.shell: |
     cd /opt/flask-app && docker compose up -d --build
-  become_user: root
+  become: yes

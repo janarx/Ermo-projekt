@@ -7,11 +7,15 @@
     state: present
     update_cache: yes
 
-- name: Start and enable PostgreSQL
-  systemd:
-    name: postgresql
-    state: started
-    enabled: yes
+- name: Start PostgreSQL cluster
+  ansible.builtin.shell: |
+    pg_ctlcluster 16 main start || true
+  ignore_errors: yes
+
+- name: Enable postgresql service
+  ansible.builtin.shell: |
+    systemctl enable postgresql@16-main
+  ignore_errors: yes
 
 - name: Create database and user with correct permissions
   ansible.builtin.shell: |
@@ -19,6 +23,7 @@
     sudo -u postgres psql -c "CREATE USER studentadmin WITH PASSWORD 'studentpass';" || true
     sudo -u postgres psql -c "GRANT ALL PRIVILEGES ON DATABASE studentapp TO studentadmin;" || true
     sudo -u postgres psql -d studentapp -c "GRANT ALL ON SCHEMA public TO studentadmin;" || true
+    sudo -u postgres psql -d studentapp -c "ALTER SCHEMA public OWNER TO studentadmin;" || true
     sudo -u postgres psql -d studentapp -c "ALTER DATABASE studentapp OWNER TO studentadmin;" || true
 
 - name: Allow remote connections in pg_hba.conf
@@ -26,11 +31,13 @@
     path: /etc/postgresql/16/main/pg_hba.conf
     line: "host    all             all             192.168.10.0/24         md5"
     state: present
-  notify: Restart PostgreSQL
 
 - name: Listen on all interfaces
   ansible.builtin.lineinfile:
     path: /etc/postgresql/16/main/postgresql.conf
     regexp: "^#listen_addresses"
     line: "listen_addresses = '*'"
-  notify: Restart PostgreSQL
+
+- name: Restart PostgreSQL cluster
+  ansible.builtin.shell: |
+    pg_ctlcluster 16 main restart
